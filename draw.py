@@ -8,7 +8,7 @@ def add_circle( points, cx, cy, cz, r, step ):
     while t <= 1:
         x = cx + r * math.cos(math.radians(t))
         y = cy + r * math.sin(math.radians(t))
-        add_point(matrix, x, y, 0)
+        add_point(points, x, y, 0)
         t += step
 
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
@@ -19,7 +19,7 @@ def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
             yCoeffs = generate_curve_coefs(y0, y1, y2, y3, t)
             xVal = xCoeffs[0][0]*t**3 + xCoeffs[0][1]*t**2 + xCoeffs[0][2]*t + xCoeffs[0][3]
             yVal = yCoeffs[0][0]*t**3 + yCoeffs[0][1]*t**2 + yCoeffs[0][2]*t + yCoeffs[0][3]
-            add_point(matrix, xVal, yVal, 0)
+            add_point(points, xVal, yVal, 0)
             t += step
     elif curve_type == "bezier":
         t = 0
@@ -30,7 +30,7 @@ def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
             yq1 = (1-t)*y1 + t*y2
             ptx = (1-t)*xq0 + t*xq1
             pty = (1-t)*yq0 + t*yq1
-            add_point(matrix, ptx, pty, 0)
+            add_point(points, ptx, pty, 0)
             t += step
 
 def draw_lines( matrix, screen, color ):
