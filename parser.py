@@ -9,7 +9,7 @@ The file follows the following format:
      Any command that requires arguments must have those arguments in the second line.
      The commands are as follows:
 
-	 circle: add a circle to the edge matrix - 
+	 circle: add a circle to the edge matrix -
 	         takes 4 arguments (cx, cy, cz, r)
 	 hermite: add a hermite curve to the edge matrix -
 	          takes 8 arguments (x0, y0, x1, y1, rx0, ry0, rx1, ry1)
@@ -57,7 +57,7 @@ def parse_file( fname, edges, transform, screen, color ):
             c+= 1
             args = lines[c].strip().split(' ')
 
-        if line == 'line':            
+        if line == 'line':
             #print 'LINE\t' + str(args)
 
             add_edge( edges,
@@ -77,7 +77,7 @@ def parse_file( fname, edges, transform, screen, color ):
         elif line == 'rotate':
             #print 'ROTATE\t' + str(args)
             theta = float(args[1]) * (math.pi / 180)
-            
+
             if args[0] == 'x':
                 t = make_rotX(theta)
             elif args[0] == 'y':
@@ -85,7 +85,7 @@ def parse_file( fname, edges, transform, screen, color ):
             else:
                 t = make_rotZ(theta)
             matrix_mult(t, transform)
-                
+
         elif line == 'ident':
             ident(transform)
 
@@ -100,5 +100,11 @@ def parse_file( fname, edges, transform, screen, color ):
                 display(screen)
             else:
                 save_extension(screen, args[0])
-            
+
+        elif line == "circle":
+            add_circle(edges, args[0], args[1], args[2], args[3], 0.2)
+
+        elif line == "hermite" or line == "bezier":
+            add_curve(edges, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], 0.2, line)
+
         c+= 1
