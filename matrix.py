@@ -18,9 +18,9 @@ def make_hermite():
 
 def generate_curve_coefs( p0, p1, p2, p3, t ):
     hInverse = make_hermite()
-    g = [[p0], [p1], [p2], [p3]]
+    g = [[p0, p1, p2, p3]]
     matrix_mult(hInverse, g)
-    return g,t
+    return g[0],t
 
 
 

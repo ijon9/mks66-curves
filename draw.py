@@ -17,6 +17,8 @@ def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
         while t <= 1:
             xCoeffs = generate_curve_coefs(x0, x1, x2, x3, t)
             yCoeffs = generate_curve_coefs(y0, y1, y2, y3, t)
+	    print xCoeffs
+	    print yCoeffs
             xVal = xCoeffs[0][0]*t**3 + xCoeffs[0][1]*t**2 + xCoeffs[0][2]*t + xCoeffs[0][3]
             yVal = yCoeffs[0][0]*t**3 + yCoeffs[0][1]*t**2 + yCoeffs[0][2]*t + yCoeffs[0][3]
             add_point(points, xVal, yVal, 0)
@@ -26,7 +28,7 @@ def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
         while t <= 1:
             xq0 = (1-t)*x0 + t*x1
             xq1 = (1-t)*x1 + t*x2
-            yq1 = (1-t)*y1 + t*y2
+            yq0 = (1-t)*y1 + t*y2
             yq1 = (1-t)*y1 + t*y2
             ptx = (1-t)*xq0 + t*xq1
             pty = (1-t)*yq0 + t*yq1
