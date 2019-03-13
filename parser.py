@@ -102,9 +102,16 @@ def parse_file( fname, edges, transform, screen, color ):
                 save_extension(screen, args[0])
 
         elif line == "circle":
-            add_circle(edges, float(args[0]), float(args[1]), float(args[2]), float(args[3]), 0.2)
+            add_circle(edges, float(args[0]), float(args[1]), float(args[2]), float(args[3]), 0.01)
 
         elif line == "hermite" or line == "bezier":
-            add_curve(edges, float(args[0]), float(args[1]), float(args[2]), float(args[3]), float(args[4]), float(args[5]), float(args[6]), float(args[7]), 0.2, line)
+            add_curve(edges, float(args[0]), float(args[1]), float(args[2]), float(args[3]), float(args[4]), float(args[5]), float(args[6]), float(args[7]), 0.01, line)
 
         c+= 1
+
+screen = new_screen()
+color = [ 0, 255, 0 ]
+edges = []
+transform = new_matrix()
+
+parse_file( 'script', edges, transform, screen, color )

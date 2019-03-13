@@ -1,43 +1,46 @@
 from display import *
 from matrix import *
-import math
-
 
 def add_circle( points, cx, cy, cz, r, step ):
-    t = 0
-    while t <= 1:
-        x = cx + r * math.cos(math.radians(t))
-        y = cy + r * math.sin(math.radians(t))
-        add_point(points, x, y, 0)
-        t += step
+    x = cx + r
+    y = cy
+
+    theta = 0
+    i = 0
+    while i < 1:
+        theta += 2 * math.pi * step
+
+        x1 = cx + r * math.cos(theta)
+        y1 = cy + r * math.sin(theta)
+        add_edge(points, x, y, cz, x1, y1, cz)
+
+        x = x1
+        y = y1
+        i += step
 
 def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
-    if curve_type == "hermite":
-        t = 0
-        while t <= 1:
-            xCoeffs = generate_curve_coefs(x0, x1, x2, x3, t)
-            yCoeffs = generate_curve_coefs(y0, y1, y2, y3, t)
-	    print xCoeffs
-	    print yCoeffs
-            xVal = xCoeffs[0][0]*t**3 + xCoeffs[0][1]*t**2 + xCoeffs[0][2]*t + xCoeffs[0][3]
-            yVal = yCoeffs[0][0]*t**3 + yCoeffs[0][1]*t**2 + yCoeffs[0][2]*t + yCoeffs[0][3]
-            add_point(points, xVal, yVal, 0)
-            t += step
-    elif curve_type == "bezier":
-        t = 0
-        while t <= 1:
-            xq0 = (1-t)*x0 + t*x1
-            xq1 = (1-t)*x1 + t*x2
-            yq0 = (1-t)*y1 + t*y2
-            yq1 = (1-t)*y1 + t*y2
-            ptx = (1-t)*xq0 + t*xq1
-            pty = (1-t)*yq0 + t*yq1
-            add_point(points, ptx, pty, 0)
-            t += step
+    xc = generate_curve_coefs(x0, x1, x2, x3, curve_type)
+    yc = generate_curve_coefs(y0, y1, y2, y3, curve_type)
+
+    x = x0
+    y = y0
+
+    i = 0
+    while i < 1:
+
+        x4 = xc[0] * (i ** 3) + xc[1] * (i ** 2) + xc[2] * (i ** 1) + xc[3]
+        y4 = yc[0] * (i ** 3) + yc[1] * (i ** 2) + yc[2] * (i ** 1) + yc[3]
+
+        add_edge(points, x, y, 0, x4, y4, 0)
+
+        x = x4
+        y = y4
+        i += step
+
 
 def draw_lines( matrix, screen, color ):
     if len(matrix) < 2:
-        print 'Need at least 2 points to draw'
+        print('Need at least 2 points to draw')
         return
 
     point = 0
